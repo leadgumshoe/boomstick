@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "boom": "^2.6.1",
+    "joi": "^6.0.8",
     "lodash.every": "^3.0.0"
   },
   "peerDependencies": {

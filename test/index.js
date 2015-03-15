@@ -53,7 +53,7 @@ lab.experiment('sad', function(){
 
     server.route(routes);
 
-    server.register({
+    var plugin = {
       register: sad,
       options: {
         success: function(request){
@@ -77,7 +77,9 @@ lab.experiment('sad', function(){
           }
         }
       }
-    }, done);
+    };
+
+    server.register(plugin, done);
   });
 
   lab.afterEach(function(done){
@@ -123,15 +125,17 @@ lab.experiment('config options', function(){
 
   var server;
 
+  lab.beforeEach(function(done){
+    server = new hapi.Server();
+    server.connection();
+    server.route(routes);
+    done();
+  });
+
   lab.experiment('success', function(){
 
     lab.beforeEach(function(done){
-      server = new hapi.Server();
-      server.connection();
-
-      server.route(routes);
-
-      server.register({
+      var plugin = {
         register: sad,
         options: {
           errors: {
@@ -143,13 +147,75 @@ lab.experiment('config options', function(){
             }
           }
         }
-      }, done);
+      };
+
+      server.register(plugin, done);
     });
 
     lab.test('is not required', function(done){
       server.inject('/no-match', function(response){
         code.expect(response.statusCode).to.equal(200);
         code.expect(response.result).to.deep.equal({});
+        done();
+      });
+    });
+  });
+
+  lab.experiment('unknown errors', function(){
+
+    lab.test('does not allow unknown boom methods', function(done){
+      var plugin = {
+        register: sad,
+        options: {
+          errors: {
+            something: function(){
+              return true;
+            }
+          }
+        }
+      };
+
+      server.register(plugin, function(err){
+        code.expect(err).to.exist();
+        code.expect(err.message).to.contain('"something" is not allowed');
+        done();
+      });
+    });
+
+    lab.test('does not allow `wrap` boom method', function(done){
+      var plugin = {
+        register: sad,
+        options: {
+          errors: {
+            wrap: function(){
+              return true;
+            }
+          }
+        }
+      };
+
+      server.register(plugin, function(err){
+        code.expect(err).to.exist();
+        code.expect(err.message).to.contain('"wrap" is not allowed');
+        done();
+      });
+    });
+
+    lab.test('does not allow `create` boom method', function(done){
+      var plugin = {
+        register: sad,
+        options: {
+          errors: {
+            create: function(){
+              return true;
+            }
+          }
+        }
+      };
+
+      server.register(plugin, function(err){
+        code.expect(err).to.exist();
+        code.expect(err.message).to.contain('"create" is not allowed');
         done();
       });
     });
