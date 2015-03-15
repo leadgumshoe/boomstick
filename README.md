@@ -1,4 +1,7 @@
 # sad
+
+[![Travis Build Status](https://img.shields.io/travis/iceddev/sad/master.svg?label=travis&style=flat-square)](https://travis-ci.org/iceddev/sad)
+
 Hapi plugin to transform application errors into proper response codes
 
 ## Usage
