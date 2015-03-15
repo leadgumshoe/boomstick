@@ -1,0 +1,27 @@
+{
+  "name": "sad",
+  "version": "0.0.0",
+  "description": "Hapi plugin to transform application errors into proper response codes ",
+  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com)",
+  "contributors": [],
+  "repository": "iceddev/sad",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "main": "index.js",
+  "files": [
+    "LICENSE",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "lab -cvL"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "errors",
+    "hapi",
+    "plugin"
+  ]
+}
