@@ -29,3 +29,7 @@ server.register({
   server.start();
 });
 ```
+
+## License
+
+MIT
