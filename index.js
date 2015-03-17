@@ -26,7 +26,7 @@ var schema = joi.object().keys({
   errors: errorsSchema
 });
 
-function sad(server, options, next){
+function boomstick(server, options, next){
 
   var validateOptions = schema.validate(options);
   if(validateOptions.error){
@@ -61,10 +61,10 @@ function sad(server, options, next){
   next();
 }
 
-sad.attributes = {
+boomstick.attributes = {
   pkg: require('./package.json')
 };
 
 module.exports = {
-  register: sad
+  register: boomstick
 };

@@ -5,7 +5,7 @@ var code = require('code');
 
 var hapi = require('hapi');
 
-var sad = require('../');
+var boomstick = require('../');
 
 var routes = [
   {
@@ -42,7 +42,7 @@ var routes = [
   }
 ];
 
-lab.experiment('sad', function(){
+lab.experiment('boomstick', function(){
 
   var server;
   var called = [];
@@ -54,7 +54,7 @@ lab.experiment('sad', function(){
     server.route(routes);
 
     var plugin = {
-      register: sad,
+      register: boomstick,
       options: {
         success: function(request){
           called.push('success');
@@ -136,7 +136,7 @@ lab.experiment('config options', function(){
 
     lab.beforeEach(function(done){
       var plugin = {
-        register: sad,
+        register: boomstick,
         options: {
           errors: {
             notFound: function(request){
@@ -165,7 +165,7 @@ lab.experiment('config options', function(){
 
     lab.test('does not allow unknown boom methods', function(done){
       var plugin = {
-        register: sad,
+        register: boomstick,
         options: {
           errors: {
             something: function(){
@@ -184,7 +184,7 @@ lab.experiment('config options', function(){
 
     lab.test('does not allow `wrap` boom method', function(done){
       var plugin = {
-        register: sad,
+        register: boomstick,
         options: {
           errors: {
             wrap: function(){
@@ -203,7 +203,7 @@ lab.experiment('config options', function(){
 
     lab.test('does not allow `create` boom method', function(done){
       var plugin = {
-        register: sad,
+        register: boomstick,
         options: {
           errors: {
             create: function(){

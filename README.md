@@ -1,20 +1,20 @@
-# sad
+# boomstick
 
-[![Travis Build Status](https://img.shields.io/travis/iceddev/sad/master.svg?label=travis&style=flat-square)](https://travis-ci.org/iceddev/sad)
+[![Travis Build Status](https://img.shields.io/travis/iceddev/boomstick/master.svg?label=travis&style=flat-square)](https://travis-ci.org/iceddev/boomstick)
 
-Hapi plugin to transform application errors into proper response codes
+Hapi plugin to transform application errors into boom error responses.
 
 ## Usage
 
 ```js
 var hapi = require('hapi');
-var sad = require('sad');
+var boomstick = require('boomstick');
 
 var server = new hapi.Server();
 server.connection();
 
 server.register({
-  register: sad,
+  register: boomstick,
   options: {
     success: function(request){
       return !(request.response instanceof Error);
