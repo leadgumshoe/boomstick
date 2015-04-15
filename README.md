@@ -39,7 +39,7 @@ server.register({
 
 - 'errors': An Object that contains a key for each boom method you want returned, along with a matching checkFunction for determining when that error case has occured.  Each key in the errors object needs to exactly match the name of the boom method that you want executed.
 
--'checkFunction' - A function that returns a boolean and has access to the Hapi request object, for error cases it should return true if that boom error should be generated.
+- 'checkFunction': - A function that returns a boolean and has access to the Hapi request object, for error cases it should return true if that boom error should be generated.
 
 ## Additional Details
 
