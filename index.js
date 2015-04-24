@@ -26,7 +26,7 @@ var errorsSchema = Object.keys(boom)
 var schema = joi.object().keys({
   success: joi.func(),
   errors: errorsSchema,
-  metadataKey: joi.string()
+  metadataKey: joi.string().default('expose')
 });
 
 function boomstick(server, options, next){
@@ -36,9 +36,9 @@ function boomstick(server, options, next){
     return next(validateOptions.error);
   }
 
-  var checkSuccess = options.success || falsey;
-  var errors = options.errors;
-  var metadataKey = options.metadataKey;
+  var checkSuccess = validateOptions.value.success || falsey;
+  var errors = validateOptions.value.errors;
+  var metadataKey = validateOptions.value.metadataKey;
 
   function checkErrors(request, reply){
     return every(errors, function(checkError, key){
