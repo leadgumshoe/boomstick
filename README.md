@@ -41,6 +41,8 @@ server.register({
 
 - 'checkFunction': - A function that returns a boolean and has access to the Hapi request object, for error cases it should return true if that boom error should be generated.
 
+- 'metadataKey': - A string denoting a key name, if the source `Error` has a value for that key it will be copied into the final error response. (Default: 'expose')
+
 ## Additional Details
 
 Boomstick is attached at the onPostHandler point of the Hapi request lifecycle. In the event that the function in the options.success object returns true boomstick will pass the request through untouched. If success returns false each of the other cases is checked and when one is true a boom error is generated and passed into your reply. If none of the errors are matched the request is passed through untouched.

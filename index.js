@@ -2,7 +2,9 @@
 
 var joi = require('joi');
 var boom = require('boom');
+var has = require('lodash.has');
 var every = require('lodash.every');
+var assign = require('lodash.assign');
 
 function falsey(){
   return false;
@@ -23,7 +25,8 @@ var errorsSchema = Object.keys(boom)
 
 var schema = joi.object().keys({
   success: joi.func(),
-  errors: errorsSchema
+  errors: errorsSchema,
+  metadataKey: joi.string().default('expose')
 });
 
 function boomstick(server, options, next){
@@ -33,13 +36,18 @@ function boomstick(server, options, next){
     return next(validateOptions.error);
   }
 
-  var checkSuccess = options.success || falsey;
-  var errors = options.errors;
+  var checkSuccess = validateOptions.value.success || falsey;
+  var errors = validateOptions.value.errors;
+  var metadataKey = validateOptions.value.metadataKey;
 
   function checkErrors(request, reply){
     return every(errors, function(checkError, key){
       if(checkError(request)){
-        reply(boom[key]());
+        var boomError = boom[key]();
+        if(has(request.response, metadataKey)){
+          assign(boomError.output.payload, request.response[metadataKey]);
+        }
+        reply(boomError);
         return false;
       } else {
         return true;
