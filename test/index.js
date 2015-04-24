@@ -26,6 +26,18 @@ var routes = [
   },
   {
     method: 'GET',
+    path: '/error-metadata',
+    handler: function(request, reply){
+      var err = new Error('Not Found');
+      err.type = 'NOT_FOUND';
+      err.expose = {
+        someData: 'yep'
+      };
+      reply(err);
+    }
+  },
+  {
+    method: 'GET',
     path: '/bad-request',
     handler: function(request, reply){
       var err = new Error('Bad Request');
@@ -56,6 +68,7 @@ lab.experiment('boomstick', function(){
     var plugin = {
       register: boomstick,
       options: {
+        metadataKey: 'expose',
         success: function(request){
           called.push('success');
           var response = request.response;
@@ -106,6 +119,14 @@ lab.experiment('boomstick', function(){
   lab.test('changes the response if an error function returns true', function(done){
     server.inject('/not-found', function(response){
       code.expect(response.statusCode).to.equal(404);
+      done();
+    });
+  });
+
+  lab.test('copies metadata when translating an error', function(done){
+    server.inject('/error-metadata', function(response){
+      code.expect(response.statusCode).to.equal(404);
+      code.expect(response.result.someData).to.equal('yep');
       done();
     });
   });
